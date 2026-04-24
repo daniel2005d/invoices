@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: invoices-api
+    image: invoices:api
+    restart: always
+    ports:
+      - "9001:5000"
