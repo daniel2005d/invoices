@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Finanzas Hogar | Invoices</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: rgb(15, 22, 35);
+      --bg-card: rgb(23, 32, 51);
+      --text-main: #f4f4f4;
+      --accent: #9fef00;
+      --accent-dark: #121c2b;
+      --border-color: #242f40;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #242f40; border-radius: 10px; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: var(--bg-card) !important;
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+    }
+
+    .navbar-brand, .nav-link {
+      color: var(--text-main) !important;
+      font-weight: 600;
+    }
+
+    .nav-link:hover {
+      color: var(--accent) !important;
+    }
+
+    .container {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h1, h2, h3 {
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: var(--accent-dark);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 8px;
+      padding: 0.6rem 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #8bd100;
+      border-color: #8bd100;
+      color: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline-secondary {
+      border-color: var(--border-color);
+      color: #999;
+    }
+
+    .form-control {
+      background-color: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: 8px;
+    }
+
+    .form-control:focus {
+      background-color: var(--bg-dark);
+      border-color: var(--accent);
+      color: var(--text-main);
+      box-shadow: 0 0 0 0.2rem rgba(159, 239, 0, 0.15);
+    }
+
+    label {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .table {
+      color: var(--text-main);
+    }
+
+    .table thead th {
+      border-top: none;
+      border-bottom: 2px solid var(--border-color);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      color: #777;
+    }
+
+    .table td {
+      border-top: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .table-success, .table-success td {
+      background-color: rgba(159, 239, 0, 0.1) !important;
+      color: var(--accent);
+    }
+
+    .alert-secondary {
+      background-color: var(--bg-dark);
+      border-color: var(--border-color);
+      color: #aaa;
+    }
+  </style>
+
+  {%block stylesheet %}{%endblock%}
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+        <!-- Logo SVG Profesional: Casa + Flecha de Crecimiento -->
+        <svg class="brand-logo mr-2" width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="24" height="24" rx="6" fill="rgba(159, 239, 0, 0.1)"/>
+          <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 22V12H15V22" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 18V14" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M10 16L12 14L14 16" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Finanzas<span style="color: var(--accent)">Hogar</span></span>
+      </a>
+
+
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Subir Soportes</a></li>
+          <li class="nav-item"><a class="nav-link" href="/payments">Pagos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/summary">Resumen</a></li>
+        </ul>
+        <form action="/revoke" method="GET" class="form-inline">
+          <button class="btn btn-sm btn-outline-secondary" type="submit">Revocar Token</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    {%block content %}{%endblock%}
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

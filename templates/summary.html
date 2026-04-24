@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{%block content %}
+<div class="col-12 mb-4">
+    <div class="card">
+        <h3>Filtrar por Concepto</h3>
+        <form enctype="multipart/form-data" action="/payments" method="POST" id="form">
+            <div class="form-group mb-0">
+                <select class="form-control form-control-sm" id="id" name="id" onchange="document.getElementById('form').submit();">
+                    <option value="">-- Todas las Categorías --</option>
+                    {%for item in data%}
+                    <option value="{{ item.id }}" {% if id == item.id %}selected{%endif%}>{{ item.name }}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if payments %}
+<div class="col-12">
+    <div class="card">
+        <h3>Resultados del Resumen</h3>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th class="text-right">Valor</th>
+                        <th class="text-center">Fecha Deuda</th>
+                        <th>Notas</th>
+                        <th>Soportes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for p in payments%}
+                    <tr>
+                        <td><span class="badge" style="border: 1px solid var(--accent); color: var(--accent);">{{p.name}}</span></td>
+                        <td class="text-right font-weight-bold">${{ p.value | format_number }}</td>
+                        <td class="text-center text-muted">{{p.debdate.strftime("%d/%m/%Y")}}</td>
+                        <td style="font-size: 0.85rem; max-width: 200px;">{{p.notes}}</td>
+                        <td>
+                            <div class="btn-group-vertical btn-group-sm">
+                                {%if p.links%}
+                                    {%for f in p.links%}
+                                        <a href="{{f}}" target="_blank" class="btn btn-outline-secondary mb-1">
+                                            Ver Archivo {{loop.index}}
+                                        </a>
+                                    {%endfor%}
+                                {%else%}
+                                    <span class="text-muted small">Sin soportes</span>
+                                {%endif%}
+                            </div>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+                <tfoot>
+                    <tr class="table-success">
+                        <td colspan="4"><b>Total Acumulado</b></td>
+                        <td><b>${{total | format_number}}</b></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{%endif%}
+{%endblock%}

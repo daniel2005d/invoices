@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{%block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">Pagos del Mes</h3>
+            <span class="badge badge-pill" style="background: var(--accent); color: var(--accent-dark); padding: 0.5rem 1rem;">Recientes</span>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Concepto</th>
+                        <th scope="col" class="text-right">Valor</th>
+                        <th scope="col" class="text-center">Fecha de Pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for p in items%}
+                    <tr>
+                        <td class="font-weight-bold">{{p.name}}</td>
+                        <td class="text-right text-accent" style="color: var(--accent)">
+                            ${{p.value| format_number }}
+                        </td>
+                        <td class="text-center text-muted">
+                            {{p.date.strftime("%b %d, %Y")}}
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+                <tfoot>
+                    <tr class="table-success">
+                        <td><b style="color: var(--accent-dark)">TOTAL</b></td>
+                        <td class="text-right"><b style="color: var(--accent-dark)">${{total| format_number }}</b></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{%endblock%}

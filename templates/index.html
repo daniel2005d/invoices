@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{%block stylesheet %}
+<style>
+  #pasteArea {
+    width: 100%;
+    height: 250px;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+
+  #pasteArea:hover {
+    border-color: var(--accent);
+    color: var(--text-main);
+  }
+
+  #pasteArea img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 8px;
+    margin: 5px;
+    border: 1px solid var(--border-color);
+  }
+
+  .file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .file-input-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+</style>
+{%endblock%}
+
+{%block content %}
+<div class="row">
+  <div class="col-lg-7">
+    <div class="card">
+      <h3>Detalles del Pago</h3>
+      <form method="post" action="/upload" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="category">Categoría Principal</label>
+              <select class="form-control form-control-sm" id="category" name="category" onchange="loadChildren(this.value)">
+                <option value="">-- Seleccionar --</option>
+                {%for item in data%}
+                <option value="{{ item.id }}">{{ item.name }}</option>
+                {%endfor%}
+              </select>
+            </div>
+          </div>
+          
+          <div class="col-md-12" id="children-container" style="display: none;">
+            <div class="form-group">
+              <label for="children">Concepto Específico</label>
+              <select class="form-control form-control-sm" name="children" id="children"></select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Fecha de Deuda</label>
+              <input type="date" class="form-control" name="debtdate">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Valor</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" style="background: var(--bg-dark); border-color: var(--border-color); color: var(--accent);">$</span>
+                </div>
+                <input type="number" class="form-control" name="value" placeholder="0.00">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Notas Adicionales</label>
+              <textarea rows="3" class="form-control" name="notes" placeholder="Ej: Pago factura energía mes actual..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        {%if message%}
+        <div class="alert alert-secondary mt-3" id="message">
+          {{message | safe}}
+        </div>
+        {%endif%}
+    </div>
+  </div>
+
+  <div class="col-lg-5 mt-4 mt-lg-0">
+    <div class="card h-100">
+      <h3>Soportes</h3>
+      <div class="form-group">
+        <label>Archivos Locales</label>
+        <div class="file-input-wrapper">
+            <input type="file" id="file" name="files[]" multiple>
+            <button type="button" class="btn btn-outline-secondary btn-block">Seleccionar Archivos</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Captura de Pantalla (Pegar)</label>
+        <div id="pasteArea">Haz clic aquí y presiona Ctrl+V</div>
+      </div>
+
+      <input type="hidden" id="imageData" name="imageData">
+      <button type="submit" class="btn btn-primary btn-block mt-auto">Registrar Pago</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function loadChildren(category) {
+    if (category) {
+      fetch(`/get_children/${category}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('message').innerText='';
+          let childrenSelect = document.getElementById('children');
+          childrenSelect.innerHTML = '';
+          data.forEach(item => {
+            let option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.name;
+            childrenSelect.appendChild(option);
+          });
+          document.getElementById('children-container').style.display = data.length ? 'block' : 'none';
+        });
+    } else {
+      document.getElementById('children-container').style.display = 'none';
+    }
+  }
+
+  let images = []; 
+  document.getElementById('pasteArea').addEventListener('paste', function (event) {
+    var items = event.clipboardData.items;
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+            var blob = items[i].getAsFile();
+            var reader = new FileReader();
+
+            reader.onload = function(event) {
+                var img = document.createElement('img');
+                img.src = event.target.result;
+                document.getElementById('pasteArea').appendChild(img);
+                images.push(event.target.result);
+                document.getElementById('imageData').value = JSON.stringify(images);
+            };
+            reader.readAsDataURL(blob);
+        }
+    }
+  });
+</script>
+{%endblock%}

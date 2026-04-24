@@ -1,0 +1,12 @@
+version: '3'
+services:
+  invoices:
+#    build: .
+    image: invoices
+    container_name: invoices
+    restart: always
+#    volumes:
+#      - .:/var/www/invoices
+    ports:
+      - 9001:5000
+#    command: bash -c "python /var/www/invoices/app.py"

@@ -1,0 +1,9 @@
+psycopg2-binary==2.9.11
+Flask==2.0.3
+Flask-WTF==0.15.1
+Werkzeug==2.0.3
+google_api_python_client==2.133.0
+google_auth_oauthlib==1.2.0
+protobuf==3.12.4
+SQLAlchemy==2.0.29
+uvicorn
