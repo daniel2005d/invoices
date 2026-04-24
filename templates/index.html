@@ -140,7 +140,11 @@
       fetch(`/get_children/${category}`)
         .then(response => response.json())
         .then(data => {
-          document.getElementById('message').innerText='';
+          let message = document.getElementById('message');
+          if (message){
+              document.getElementById('message').innerText='';
+          }
+          
           let childrenSelect = document.getElementById('children');
           childrenSelect.innerHTML = '';
           data.forEach(item => {
