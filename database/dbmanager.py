@@ -1,3 +1,4 @@
+from sqlalchemy import desc
 from database.connection import Session
 from database.tables import Company, Payments, Parameters
 from datetime import date, timedelta, datetime
@@ -37,34 +38,34 @@ class DbManager:
     def get_summary(self, day_of_month=20):
         rows = None
         session = Session()
-        today = date.today()
+        # today = date.today()
     
-        # Determinamos el inicio del ciclo
-        if today.day >= 26:
-            # Caso: 26 al 31 de este mes
-            # El ciclo empieza el 26 de este mes y termina el 25 del próximo
-            start_date = datetime(today.year, today.month, 26)
+        # # Determinamos el inicio del ciclo
+        # if today.day >= 26:
+        #     # Caso: 26 al 31 de este mes
+        #     # El ciclo empieza el 26 de este mes y termina el 25 del próximo
+        #     start_date = datetime(today.year, today.month, 26)
             
-            # Manejo del próximo mes y posible cambio de año
-            if today.month == 12:
-                end_date = datetime(today.year + 1, 1, 25)
-            else:
-                end_date = datetime(today.year, today.month + 1, 25)
-        else:
-            # Caso: 1 al 25 de este mes
-            # El ciclo empezó el 26 del mes anterior y termina el 25 de este mes
-            end_date = datetime(today.year, today.month, 25)
+        #     # Manejo del próximo mes y posible cambio de año
+        #     if today.month == 12:
+        #         end_date = datetime(today.year + 1, 1, 25)
+        #     else:
+        #         end_date = datetime(today.year, today.month + 1, 25)
+        # else:
+        #     # Caso: 1 al 25 de este mes
+        #     # El ciclo empezó el 26 del mes anterior y termina el 25 de este mes
+        #     end_date = datetime(today.year, today.month, 25)
             
-            # Manejo del mes anterior y posible cambio de año
-            if today.month == 1:
-                start_date = datetime(today.year - 1, 12, 26)
-            else:
-                start_date = datetime(today.year, today.month - 1, 26)
+        #     # Manejo del mes anterior y posible cambio de año
+        #     if today.month == 1:
+        #         start_date = datetime(today.year - 1, 12, 26)
+        #     else:
+        #         start_date = datetime(today.year, today.month - 1, 26)
     
             # La consulta usando los límites correctos
         query = session.query(Payments, Company.name)\
             .join(Company, Company.id == Payments.company_id)\
-            .where(Payments.debdate.between(start_date, end_date))
+            .order_by(desc(Payments.id)).limit(30)
         #query = session.query(Payments, Company.name).join(Company, Company.id==Payments.company_id).where(Payments.debdate.between(cleft,cright))
         print(query)
         rows = query.all()
