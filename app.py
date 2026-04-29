@@ -89,6 +89,7 @@ def upload_file():
         debdate = request.form['debtdate']
         value = request.form['value']
         notes = request.form['notes']
+        method = request.form['method']
         children = None
         image = None
         company_id = None
@@ -134,6 +135,7 @@ def upload_file():
         payment.path = file_names
         payment.linkfile = ','.join([item['filelink'] for item in files])
         payment.notes = notes
+        payment.method = method
         pay = db.add_payment(payment)
         return render_template('index.html', message='<br/>'.join([item['filename'] for item in files]) , data=get_menu(), months=get_months())
         
@@ -148,7 +150,7 @@ def summary():
     summary = db.get_summary(26)
     for item in summary:
         total += item.Payments.value
-        items.append({"id":item.Payments.id, "value":item.Payments.value, "date":item.Payments.paymentdate, "name":item.name})
+        items.append({"id":item.Payments.id, "value":item.Payments.value, "date":item.Payments.paymentdate, "name":item.name, "method": item.Payments.method if item.Payments.method is not None else ""})
     return render_template('payments.html', items=items, total=total)
 
 @app.route('/get_children/<parent_id>', methods=['GET'])

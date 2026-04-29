@@ -31,6 +31,7 @@ class Payments(Base):
     path = Column(String, nullable=False)
     linkfile = Column(String, nullable=False)
     notes = Column(String, nullable=True)
+    method = Column(String, nullable=True)
 
 class Parameters(Base):
     __tablename__ = 'parameters'

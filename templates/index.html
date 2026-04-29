@@ -101,6 +101,20 @@
               <textarea rows="3" class="form-control" name="notes" placeholder="Ej: Pago factura energía mes actual..."></textarea>
             </div>
           </div>
+<!-- Medios de pago-->
+            <div class="col-md-12">
+            <div class="form-group">
+              <label for="category">Método de pago</label>
+              <select class="form-control form-control-sm" id="method" name="method">
+                <option value="">-- Seleccionar --</option>
+                <option value="nomina">Nomina</option>
+                <option value="bre-b">Bre-b</option>
+                <option value="visa-1172">Visa 1172</option>
+                <option value="master-7417">MasterCard 7417</option>
+                <option value="dollarapp">DollarAPP</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         {%if message%}
